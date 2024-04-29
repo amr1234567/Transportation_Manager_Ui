@@ -1,0 +1,49 @@
+<div class="Login-Page d-flex justify-content-center align-items-center w-100 h-100">
+   <div class="form-container d-flex flex-column align-items-center gap-4 p-4">
+      <h1 class="text-center">Log In</h1>
+      <form class="login-form d-flex flex-column gap-4 align-items-center w-100" action="post" #loginForm="ngForm"
+         (ngSubmit)="Login()">
+         <div class="form-floating w-100">
+            <input #emailInput="ngModel" [(ngModel)]="LoginModel.email" name="email" class="form-control rounded-2"
+               required="true" type="email" id="email" placeholder="example@example.com" email [pattern]="emailRegex" />
+            <label for=" email" class="form-label">Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+            <span class="text-danger bg-transparent" *ngIf="emailInput.dirty &&emailInput.hasError('required')">
+               "Email must be Entered"
+            </span>
+            <span class="text-danger bg-transparent"
+               *ngIf="emailInput.dirty &&(emailInput.hasError('email')||emailInput.hasError('pattern'))">
+               Email must be valid {{"(ex: example@mail.com)"}}
+            </span>
+
+         </div>
+         <div #loginForm class="form-floating w-100">
+            <input #PasswordInput="ngModel" class="form-control" name="password" [(ngModel)]="LoginModel.password"
+               required="true" type="password" id="password" placeholder="Password" minlength="8"
+               [pattern]="passwordRegex" />
+            <label for="password" class="form-label">Password</label>
+            <span class="text-danger" *ngIf="PasswordInput.dirty &&PasswordInput.hasError('required')">
+               Password must be Entered
+            </span>
+            <span class="text-danger" *ngIf="PasswordInput.dirty && PasswordInput.hasError('minlength')">
+               Password must be Entered
+            </span>
+            <div class="pass-validation-errors" *ngIf="PasswordInput.dirty && PasswordInput.hasError('pattern')">
+               <ul>
+                  <h3 class="text-danger bg-transparent">Password must be in a valid signature</h3>
+                  <li class="text-danger bg-transparent">1 symbol =>
+                     {{" ! , @ , # , $ , % , ^ , & , * , ( , ) , _ , - ,+ , = "}}</li>
+                  <li class="text-danger bg-transparent">1 Capital letter => A , B , C ,...</li>
+                  <li class="text-danger bg-transparent">1 small letter => a , b , c ,...</li>
+               </ul>
+            </div>
+         </div>
+         <p *ngIf="LoginErrors" class="text-danger">{{LoginErrors}}</p>
+         <button *ngIf="!isCLicked" type="submit" class="btn button-container rounded-5"
+            [disabled]="!loginForm.dirty || loginForm.invalid">
+            Log In
+         </button>
+         <mat-spinner *ngIf="isCLicked" color="warn"></mat-spinner>
+      </form>
+   </div>
+</div>
